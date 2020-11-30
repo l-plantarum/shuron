@@ -34,6 +34,7 @@ with open(sys.argv[2]) as f:
 
 
 print("#,FY,avg, v, p-value")
+arpv = np.zeros((200, 3)) #一標本KS検定の結果を格納する
 for i in range(n_topics):
     for j in range(3):
         s = 0
@@ -50,8 +51,14 @@ for i in range(n_topics):
             print("{},{},{:.6f},{:.6f},{:.6f},パラメトリック".format(i, j+2015, avg, v, pv[1]))
         else:
             print("{},{},{:.6f},{:.6f},{:.6f},ノンパラメトリック".format(i, j+2015, avg, v, pv[1]))
+        arpv[i][j] = pv[1]
+print("一標本KS検定結果")
+print("#,15,16,17")
+for i in range(n_topics):
+    print(f"{i},{arpv[i][0]},{arpv[i][1]},{arpv[i][2]}")
 
 print("二標本KS検定")
+print("#,15vs16,16vs17")
 for i in range(n_topics):
     # 2015 vs 2016
     # 2016 vs 2017
@@ -60,6 +67,7 @@ for i in range(n_topics):
     print("{},{},{}".format(i, pv1[1], pv2[1]))
 
 print("ウィルコクソンの符号順位検定")
+print("#,15vs16,16vs17")
 for i in range(n_topics):
     # 2015 vs 2016
     # 2016 vs 2017
@@ -68,6 +76,7 @@ for i in range(n_topics):
     print("{},{},{}".format(i, pv1[1], pv2[1]))
 
 print("カイパー")
+print("#,15vs16,16vs17")
 for i in range(n_topics):
     # 2015 vs 2016
     # 2016 vs 2017
